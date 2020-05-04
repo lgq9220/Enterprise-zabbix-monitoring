@@ -1,37 +1,42 @@
-# Enterprise-zabbix-monitoring
-
-#### 介绍
-企业zabbix落地监控方案一
-
-#### 软件架构
-软件架构说明
+监控架构
 
 
-#### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1、架构图
 
-#### 使用说明
+![](.\架构图.png)
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+2、组建说明
 
-#### 参与贡献
+zabbix：服务器故障信息、网络层性能和组件、应用层性能。
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+elk + redis：服务器日志、网络层日志、应用层日志。
+
+prometheus：虚拟化性能采集。
+
+pinpoint：应用全链路监控。
+
+kafka：告警接受。
+
+3、详细说明
+
+服务器层采用shell job ipmi采集告警信息，信息推送至zabbix。
+
+存储日志主动推送elk。
+
+zabbix通过模板采集网络设备信息，网络设备日志推送至elk。
+
+虚拟化告警信息通过python job采集存入数据库，虚拟化性能信息通过go agent存入prometheus。
+
+pinpoint监控java类应用链路故障和访问量。
+
+应用类日志推送elk，统计应用访问数据可视化。
+
+zabbix 告警推送 kafka，再存入mysql 数据库，做为故障信息统计报表。
+
+通过postgresql 打造资产管理系统，通过zabbix api更新主机描述，可快速定位各层的准确信息。
 
 
-#### 码云特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+
+
