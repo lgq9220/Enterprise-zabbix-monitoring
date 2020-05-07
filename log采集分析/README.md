@@ -9,6 +9,7 @@ tcp-keepalive 300 #心跳检测
 daemonize yes #运行在后台
 maxmemory 6000mb #限制最大内存
 maxmemory-policy noeviction #到达最大内存后，不可写可读
+rdb-save-incremental-fsync no #本地保存备份
 ```
 
 nginx日志格式
